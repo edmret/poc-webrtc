@@ -2,9 +2,9 @@
     "name": "Section Share",
     "version": "1.0",
     "description": "Shares a section of DOM element",
-    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "permissions": ["activeTab", "declarativeContent", "storage", "debugger"],
     "background" : {
-        "scripts": ["background.js"],
+        "scripts": ["dist/background.js"],
         "persistent": false
     },
     "options_page": "options.html",
