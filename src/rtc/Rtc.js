@@ -1,3 +1,5 @@
+const getScreenId = window.getScreenId;
+
 export class RTC{
 
     static shareScreen = () => getScreenId(function (error, sourceId, screen_constraints) {
@@ -27,7 +29,30 @@ export class RTC{
 
         navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         navigator.getUserMedia(screen_constraints, function (stream) {
-            document.querySelector('video').src = URL.createObjectURL(stream);
+            let windowVideo = document.getElementById('share-video');
+            let copyVideo = document.getElementById('copy-video');
+            let canvasVideo = document.querySelector('.video-img')
+            let canvasContext = canvasVideo.getContext( '2d' );
+
+            function drawToCanvas() {
+                // draw the current frame of localVideo onto the canvas,
+                // starting at 0, 0 (top-left corner) and covering its full
+                // width and heigth
+                canvasContext.drawImage( windowVideo, 100, 100, 300, 200, 0, 0, 400,300 );
+            
+                //repeat this every time a new frame becomes available using
+                //the browser's build-in requestAnimationFrame method
+                requestAnimationFrame( drawToCanvas );
+            }
+
+            drawToCanvas();
+
+            windowVideo.src = URL.createObjectURL(stream);
+
+            windowVideo.addEventListener('canplay', () => {
+                const stream = canvasVideo.captureStream();
+                copyVideo.srcObject = stream;
+              });
 
             // share this "MediaStream" object using RTCPeerConnection API
         }, function (error) {
