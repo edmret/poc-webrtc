@@ -2,11 +2,19 @@
     "name": "Section Share",
     "version": "1.0",
     "description": "Shares a section of DOM element",
-    "permissions": ["activeTab", "declarativeContent", "storage", "debugger"],
+    "permissions": ["activeTab", "declarativeContent", "storage", "debugger","<all_urls>"],
     "background" : {
         "scripts": ["dist/background.js"],
         "persistent": false
     },
+    "content_scripts": [
+        {
+            "run_at": "document_end",
+            "js": ["content.js"],
+            "matches": ["http://*/*", "https://*/*"],
+            "css": ["css/share-inspector0002134.css"]
+        }
+    ],
     "options_page": "options.html",
     "page_action": {
         "default_popup": "popup.html",

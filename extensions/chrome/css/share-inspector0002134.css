@@ -1,0 +1,27 @@
+.share-inspector-dotted0002134{
+    border-style: dotted;
+    border-color: #FF0000;
+    position: absolute !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 999999999999999999999999999999999999999999999 !important;
+}
+.share-inspector-dotted0002134.side{
+    width: 0 !important;
+    border-left-width: 1px;
+}
+
+.share-inspector-dotted0002134.floor{
+    height: 0 !important;
+    border-top-width: 1px;
+}
+
+.share-inspector-share-overlay0002134{
+    position: absolute !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 10px;
+    width: 10px;
+    z-index: 999999999999999999999999999999999999999999999 !important;
+    background: #FF0000;
+}
