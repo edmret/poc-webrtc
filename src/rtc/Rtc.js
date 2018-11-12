@@ -1,3 +1,5 @@
+import { createContext } from "vm";
+
 const getScreenId = window.getScreenId;
 
 export class RTC{
@@ -34,11 +36,42 @@ export class RTC{
             let canvasVideo = document.querySelector('.video-img')
             let canvasContext = canvasVideo.getContext( '2d' );
 
+
+            canvasVideo.width = window.screen.width;
+            canvasVideo.height = window.screen.height;
+
             function drawToCanvas() {
+                let positions = window.positions;
+                let screen = window.screen;
                 // draw the current frame of localVideo onto the canvas,
                 // starting at 0, 0 (top-left corner) and covering its full
                 // width and heigth
-                canvasContext.drawImage( windowVideo, 100, 100, 300, 200, 0, 0, 400,300 );
+
+                let shareArea = document.getElementById('selected-positions-share').innerHTML.trim();
+                if(!!shareArea){
+                    positions = JSON.parse(shareArea);
+                }
+
+                let sw = screen.width;
+                let sh = screen.height;
+                let ratio;
+                
+                if(positions.width > positions.height){
+                    ratio = sw/positions.width;
+                }else{
+                    ratio = sh/positions.height;
+                }
+
+                let newheight = positions.height*ratio;
+                let newWidth = positions.width*ratio;
+
+                let newTop = (sh - newheight) / 2;
+                let newLeft = (sw - newWidth) / 2;
+
+                canvasContext.rect(0,0, sw, sh);
+                canvasContext.fillStyle = 'black';
+                canvasContext.fill();
+                canvasContext.drawImage( windowVideo, positions.left, positions.top, positions.width, positions.height, newLeft, newTop, newWidth ,newheight );
             
                 //repeat this every time a new frame becomes available using
                 //the browser's build-in requestAnimationFrame method

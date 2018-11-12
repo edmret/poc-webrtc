@@ -58,7 +58,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "build-chrome": "node_modules/.bin/webpack --config extensions/chrome/webpack.config.js"
+    "build-chrome": "npx webpack --config extensions/chrome/webpack.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"

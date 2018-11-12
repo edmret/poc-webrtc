@@ -1,5 +1,8 @@
+import {BrowserHelper} from '../helpers/browser.helper';
+
 const overlayClass = 'share-inspector-share-overlay0002134';
 const inspecterdelimiterClassName = 'share-inspector-dotted0002134';
+
 
 let delimiters = createDelimiters();
 
@@ -7,19 +10,15 @@ let highlight = document.createElement('div');
 highlight.className = overlayClass;
 document.body.appendChild(highlight);
 
+let selectedDom;
+
 document.body.addEventListener("mouseover", (e) => {
     if(canHover(e.target)){
-        let overlaySelector = document.querySelector(`.${overlayClass}`);
-        let offset = getOffset(e.target);
 
-        let positions = {
-            left: offset.left,
-            top: offset.top,
-            width: e.target.clientWidth,
-            height: e.target.clientHeight
-        };
+        let positions = getElementPositions(e.target);
 
         setDelimitersPositions.call(delimiters,positions);
+        selectedDom = e.target;
     }
 });
 
@@ -29,6 +28,17 @@ document.body.addEventListener("mousemove", (e) => {
         left: e.pageX
     });
 });
+
+function getElementPositions(elem){
+    let offset = getOffset(elem);
+
+    return {
+        left: offset.left,
+        top: offset.top,
+        width: elem.clientWidth,
+        height: elem.clientHeight
+    };
+}
 
 function canHover(elem){
     let computed = getComputedStyle(elem);
@@ -100,7 +110,18 @@ function moveOverlay({left, top}){
 
 
 
-highlight.addEventListener("click", function(){
+highlight.addEventListener("click", ()=>{
     highlight.style.display = 'none';
-    console.log('clicked');
+    chrome.storage.sync.set({domPositions: BrowserHelper.getScreenPosition(getElementPositions(selectedDom))}, function() {
+        console.log("New positions Selected");
+    });
 });
+
+let shareArea = document.getElementById('selected-positions-share');
+if(!!shareArea){
+    chrome.storage.onChanged.addListener((changes, namespace)=>{
+        console.log("New positions received");
+        shareArea.innerHTML = JSON.stringify(changes.domPositions.newValue);
+        console.log(changes.domPositions.newValue);
+    });
+}

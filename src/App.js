@@ -8,9 +8,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <video controls autoplay playsinline id="share-video" width="400" height="300"></video>
-          <video controls autoplay playsinline id="copy-video" width="400" height="300"></video>
-          <canvas className="video-img" width="400" height="300" ></canvas>
+          <video controls autoPlay playsInline id="share-video" width="400" height="218"></video>
+          <canvas className="video-img" width="400" height="218" ></canvas>
+          <video controls autoPlay playsInline id="copy-video" width="400" height="218"></video>
           <button type="button" onClick={RTC.shareScreen}>Share Screen</button>
         </header>
       </div>

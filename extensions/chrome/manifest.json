@@ -10,7 +10,7 @@
     "content_scripts": [
         {
             "run_at": "document_end",
-            "js": ["content.js"],
+            "js": ["dist/content.js"],
             "matches": ["http://*/*", "https://*/*"],
             "css": ["css/share-inspector0002134.css"]
         }
